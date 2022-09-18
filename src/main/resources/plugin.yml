@@ -1,0 +1,8 @@
+name: Simplicity
+version: '${project.version}'
+main: tech.calista.simplicity.Simplicity
+api-version: 1.19
+prefix: Simplicity
+authors: [ NiceCraftz ]
+description: Make it simple.
+website: https://t.me/CraftzLounge
