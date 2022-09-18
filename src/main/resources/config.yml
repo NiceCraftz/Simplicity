@@ -1,0 +1,17 @@
+prefix: "&6Simplicity &8»"
+
+survival: "%prefix% &7Changed gamemode to &aSurvival&f!"
+creative: "%prefix% &7Changed gamemode to &aCreative&f!"
+
+fly-on: "%prefix% &7Fly mode &aenabled&f!"
+fly-off: "%prefix% &7Fly mode &cdisabled&f!"
+
+msg-sent: "&8[&fYou &6> &b%player%&8] &7%message%"
+msg-received: "&8[&b%player% &6> &fYou&8] &7%message%"
+
+reloaded: "%prefix% &7Reloaded the config!"
+
+not-enough-args: "%prefix% &cNot enough arguments!"
+no-permission: "%prefix% &cYou don't have permission to do that!"
+player-only: "%prefix% &cYou must be a player to do that!"
+player-not-found: "%prefix% &cPlayer not found!"
