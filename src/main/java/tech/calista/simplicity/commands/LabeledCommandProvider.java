@@ -4,7 +4,6 @@ import com.google.common.collect.Maps;
 import org.bukkit.command.Command;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -15,12 +14,9 @@ public abstract class LabeledCommandProvider extends Command {
         super(name);
     }
 
-    protected LabeledCommandProvider(@NotNull String name, @NotNull String description, @NotNull String usageMessage, @NotNull List<String> aliases) {
-        super(name, description, usageMessage, aliases);
-    }
-
-
     public void load(LabeledCommand labeledCommand) {
+        labeledCommandMap.put(labeledCommand.getLabel().toLowerCase(), labeledCommand);
+
         for (String alias : labeledCommand.getAliases()) {
             labeledCommandMap.put(alias.toLowerCase(), labeledCommand);
         }

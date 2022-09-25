@@ -3,16 +3,17 @@ package tech.calista.simplicity.utils.messages;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.plugin.java.JavaPlugin;
 import tech.calista.simplicity.Simplicity;
 import tech.calista.simplicity.utils.bukkit.chat.ColorUtil;
-import tech.calista.simplicity.utils.bukkit.chat.PlaceHolder;
+import tech.calista.simplicity.utils.bukkit.chat.Placeholder;
 
 import java.util.Objects;
 
 @RequiredArgsConstructor
-public enum Messages {
-    SURVIVAL("survival"),
-    CREATIVE("creative"),
+public enum Message {
+    SURVIVAL_MODE("survival"),
+    CREATIVE_MODE("creative"),
     FLY_ON("fly-on"),
     FLY_OFF("fly-off"),
     MSG_SENT("msg-sent"),
@@ -27,17 +28,17 @@ public enum Messages {
     private final String path;
 
     private FileConfiguration getConfig() {
-        return Simplicity.getInstance().getConfig();
+        return JavaPlugin.getPlugin(Simplicity.class).getConfig();
     }
 
-    public void sendMessage(CommandSender commandSender, PlaceHolder... placeHolders) {
+    public void sendMessage(CommandSender commandSender, Placeholder... placeholders) {
         String message = getConfig().getString(path);
 
         if (message == null || message.isEmpty()) {
             return;
         }
 
-        for (PlaceHolder placeHolder : placeHolders) {
+        for (Placeholder placeHolder : placeholders) {
             message = message.replace(placeHolder.getKey(), placeHolder.getValue());
         }
 

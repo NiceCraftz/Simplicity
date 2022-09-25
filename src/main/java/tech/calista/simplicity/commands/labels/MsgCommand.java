@@ -5,20 +5,32 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import tech.calista.simplicity.commands.LabeledCommand;
-import tech.calista.simplicity.utils.bukkit.chat.PlaceHolder;
-import tech.calista.simplicity.utils.messages.Messages;
+import tech.calista.simplicity.utils.bukkit.chat.Placeholder;
+import tech.calista.simplicity.utils.messages.Message;
 
+import java.util.Arrays;
 import java.util.List;
 
-public class MsgCommand extends LabeledCommand {
-    public MsgCommand(String label, boolean isPlayerOnly, List<String> aliases) {
-        super(label, isPlayerOnly, aliases);
+public class MsgCommand implements LabeledCommand {
+    @Override
+    public String getLabel() {
+        return "msg";
+    }
+
+    @Override
+    public String getPermission() {
+        return "simplicity.msg";
+    }
+
+    @Override
+    public List<String> getAliases() {
+        return Arrays.asList("message", "tell", "whisper", "w");
     }
 
     @Override
     public void execute(CommandSender commandSender, String[] args) {
         if (args.length < 2) {
-            Messages.NOT_ENOUGH_ARGS.sendMessage(commandSender);
+            Message.NOT_ENOUGH_ARGS.sendMessage(commandSender);
             return;
         }
 
@@ -26,14 +38,14 @@ public class MsgCommand extends LabeledCommand {
         OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(targetName);
 
         if (!offlinePlayer.isOnline()) {
-            Messages.PLAYER_NOT_FOUND.sendMessage(commandSender);
+            Message.PLAYER_NOT_FOUND.sendMessage(commandSender);
             return;
         }
 
         Player target = offlinePlayer.getPlayer();
 
         if (target == null) {
-            Messages.PLAYER_NOT_FOUND.sendMessage(commandSender);
+            Message.PLAYER_NOT_FOUND.sendMessage(commandSender);
             return;
         }
 
@@ -45,7 +57,7 @@ public class MsgCommand extends LabeledCommand {
 
         String message = stringBuilder.toString();
 
-        Messages.MSG_SENT.sendMessage(commandSender, new PlaceHolder("player", target.getName()), new PlaceHolder("message", message));
-        Messages.MSG_RECEIVED.sendMessage(target, new PlaceHolder("player", commandSender.getName()), new PlaceHolder("message", message));
+        Message.MSG_SENT.sendMessage(commandSender, new Placeholder("player", target.getName()), new Placeholder("message", message));
+        Message.MSG_RECEIVED.sendMessage(target, new Placeholder("player", commandSender.getName()), new Placeholder("message", message));
     }
 }

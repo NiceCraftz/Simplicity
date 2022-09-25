@@ -8,31 +8,30 @@ import tech.calista.simplicity.commands.labels.CreativeCommand;
 import tech.calista.simplicity.commands.labels.FlyCommand;
 import tech.calista.simplicity.commands.labels.MsgCommand;
 import tech.calista.simplicity.commands.labels.SurvivalCommand;
-import tech.calista.simplicity.utils.messages.Messages;
+import tech.calista.simplicity.utils.messages.Message;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Optional;
 
 public class SimplicityCommand extends LabeledCommandProvider {
 
-    public SimplicityCommand() {
+    private final Simplicity simplicity;
+    public SimplicityCommand(Simplicity simplicity) {
         super("simplicity");
+        this.simplicity = simplicity;
 
-        load(new CreativeCommand("gmc", true, Collections.singletonList("creative")));
-        load(new SurvivalCommand("gms", true, Arrays.asList("survival")));
-        load(new FlyCommand("fly", true, Arrays.asList("flight", "wings")));
-        load(new MsgCommand("msg", false, Arrays.asList("message")));
+        load(new CreativeCommand());
+        load(new SurvivalCommand());
+        load(new FlyCommand());
+        load(new MsgCommand());
+
     }
 
     @Override
     public boolean execute(@NotNull CommandSender sender, @NotNull String commandLabel, @NotNull String[] args) {
         if (commandLabel.equalsIgnoreCase(getName())) {
-
-
             if (args.length >= 1 && args[0].equalsIgnoreCase("reload") && sender.hasPermission("simplicity.reload")) {
-                Simplicity.getInstance().reloadConfig();
-                Messages.RELOADED.sendMessage(sender);
+                simplicity.reloadConfig();
+                Message.RELOADED.sendMessage(sender);
                 return true;
             }
 
@@ -48,13 +47,13 @@ public class SimplicityCommand extends LabeledCommandProvider {
 
         LabeledCommand labeledCommand = command.get();
 
-        if (!labeledCommand.hasPermission(sender)) {
-            Messages.NO_PERMISSION.sendMessage(sender);
+        if (!sender.hasPermission(labeledCommand.getPermission())) {
+            Message.NO_PERMISSION.sendMessage(sender);
             return true;
         }
 
         if (labeledCommand.isPlayerOnly() && !(sender instanceof Player)) {
-            Messages.PLAYER_ONLY.sendMessage(sender);
+            Message.PLAYER_ONLY.sendMessage(sender);
             return true;
         }
 

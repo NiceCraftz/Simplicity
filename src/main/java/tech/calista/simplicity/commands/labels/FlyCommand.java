@@ -3,14 +3,31 @@ package tech.calista.simplicity.commands.labels;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import tech.calista.simplicity.commands.LabeledCommand;
-import tech.calista.simplicity.utils.messages.Messages;
+import tech.calista.simplicity.utils.messages.Message;
 
+import java.util.Arrays;
 import java.util.List;
 
-public class FlyCommand extends LabeledCommand {
+public class FlyCommand implements LabeledCommand {
 
-    public FlyCommand(String label, boolean isPlayerOnly, List<String> aliases) {
-        super(label, isPlayerOnly, aliases);
+    @Override
+    public boolean isPlayerOnly() {
+        return true;
+    }
+
+    @Override
+    public String getLabel() {
+        return "fly";
+    }
+
+    @Override
+    public String getPermission() {
+        return "simplicity.fly";
+    }
+
+    @Override
+    public List<String> getAliases() {
+        return Arrays.asList("flight", "wings");
     }
 
     @Override
@@ -21,10 +38,9 @@ public class FlyCommand extends LabeledCommand {
         player.setAllowFlight(!isFlying);
 
         if (isFlying) {
-            Messages.FLY_OFF.sendMessage(player);
+            Message.FLY_OFF.sendMessage(player);
         } else {
-           Messages.FLY_ON.sendMessage(player);
+            Message.FLY_ON.sendMessage(player);
         }
-
     }
 }
